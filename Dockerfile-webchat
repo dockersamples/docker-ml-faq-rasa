@@ -1,2 +1,11 @@
 FROM nginx:alpine
 COPY index.html /usr/share/nginx/html
+
+# Copy an entrypoint script to inject environment variables
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Set entrypoint to dynamically replace environment variables
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["nginx", "-g", "daemon off;"]
